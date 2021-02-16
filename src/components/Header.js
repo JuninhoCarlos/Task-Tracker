@@ -2,18 +2,15 @@ import PropTypes from 'prop-types'
 import Button from './Button'
 import { useState } from 'react'
 
-const Header = ({title}) => {
-    const [counter, setCounter] = useState(1)
-
-    const onClick = () => {
-        console.log("click")
-        setCounter(counter+1)
-    }
-
+const Header = ({title, onAdd, showAdd}) => {
+    
     return (
         <header className='header'>
-            <h1>{title} {counter}</h1>
-            <Button text='add' color="green" onClick={onClick}/> 
+            <h1>{title} </h1>
+            <Button 
+                text={showAdd ? 'Close' : 'Add'} 
+                color={showAdd ? 'red' :"green" }
+                onClick={onAdd}/> 
         </header>
     )
 }

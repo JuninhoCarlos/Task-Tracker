@@ -28,7 +28,9 @@ const App = () => {
       reminder: false,
     }])
 
-  
+  const [showAddForm,setShowAddForm] = useState(false)
+
+
   //Delete Task
   const deleteTask = (e,id) => {
     e.stopPropagation()
@@ -53,13 +55,20 @@ const App = () => {
 
   //Add Task
   const addTask = (task) => {
-    console.log(task)
+    const id = Math.floor(Math.random() * 1000) + 1
+    const newTask = {id, ...task}
+    setTasks([...tasks,newTask])
+    //console.log(task)
+  }
+
+  const showForm = () => {
+    setShowAddForm(!showAddForm)
   }
 
   return (
     <div className="container">
-      <Header title="Task Tracker"/>
-      <AddTask onAdd={addTask}/>
+      <Header title="Task Tracker" onAdd={showForm} showAdd={showAddForm}/>
+      {showAddForm && <AddTask onAdd={addTask} /> }
       { tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/> : "No tasks to show"
       }
     </div>

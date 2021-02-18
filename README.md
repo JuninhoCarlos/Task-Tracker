@@ -15,6 +15,6 @@ I used the following packages:
 
 After cloning the project, you can run the project by typing the following command:
 
-npm run server (to run the json-server which emulates API server)
-npm run start (to run the application)
+- npm run server (to run the json-server which emulates API server)
+- npm run start (to run the application)
 

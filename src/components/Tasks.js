@@ -9,7 +9,7 @@ const Tasks = () => {
 
     return (
         <>
-            {selector.tasks.map((task) => (
+            {selector.map((task) => (
                 <Task key={task.id} task={task} />
             ))}  
         </>

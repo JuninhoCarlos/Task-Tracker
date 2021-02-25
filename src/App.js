@@ -14,7 +14,8 @@ const App = () => {
     
     const [showAddForm, setShowAddForm] = useState(false);
 
-    const tasks = useSelector(state => state.tasks).tasks
+    const tasks = useSelector(state => state.tasks)
+    console.log(tasks)
         
     /*
     useEffect(() => {                

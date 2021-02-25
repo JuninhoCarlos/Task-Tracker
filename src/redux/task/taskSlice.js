@@ -1,46 +1,69 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = [
+    {
+        id : 1,
+        text: 'Go shopping',
+        day: 'isTurdia',
+        reminder: true
+    },
+    {
+        id : 2,
+        text: 'Fix the house',
+        day: 'isTurdiinha',
+        reminder: false
+    },
+    {
+        id : 3,
+        text: 'Something else',
+        day: 'antionti',
+        reminder: true
+    }      
+]        
+
+
 export const slice = createSlice({
     name: 'tasks',
-    initialState : {
-        tasks: [
-            {
-                id : 1,
-                text: 'Go shopping',
-                day: 'isTurdia',
-                reminder: true
-            },
-            {
-                id : 2,
-                text: 'Fix the house',
-                day: 'isTurdiinha',
-                reminder: false
-            },
-            {
-                id : 3,
-                text: 'Something else',
-                day: 'antionti',
-                reminder: true
-            }      
-        ]        
-    },
+    initialState,
     reducers:{
-        addTask : (state, action) =>{
+        addTask: (state, action) => {
             //Handle adding multiple task in a single action
-            //(fetching from API)
+            //(fetching from API)            
             if (Array.isArray(action.payload)){
                 action.payload.map((data) => 
-                    state.tasks = [...state.tasks, data]
+                    state.push(data)
                 )
             }else{
-                state.tasks = [...state.tasks, action.payload]
+                state.push(action.payload)
             }            
+        },
+
+        //We just toggle the reminder
+        updateTask: (state, action) => {
+            const {id,reminder} = action.payload             
+            
+            const existingTask = state.find( (task) => task.id === id)
+            if (existingTask ){
+                existingTask.reminder = !reminder
+            }            
+        },
+
+        deleteTask: (state, action) => {            
+            const id = action.payload   
+            let index
+            for(var i = 0; i < state.length; i++){
+                if (state[i].id === id){
+                    index = i
+                    break
+                }
+            }            
+            state.splice(index,1)
         }
     }
 })
 
 //Actions
-export const { addTask } = slice.actions
+export const { addTask, updateTask, deleteTask } = slice.actions
 
 //Selectors
 export const selectAllTasks = state => state.tasks

@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { Provider } from 'react-redux';
-import store from "./store";
+import { useSelector } from 'react-redux';
 
 import Header from "./components/Header.js";
 import Tasks from "./components/Tasks";
@@ -12,18 +11,15 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 
 const App = () => {
-    const [tasks, setTasks] = useState([]);
-
+    
     const [showAddForm, setShowAddForm] = useState(false);
 
-    useEffect(() => {
-        const getTask = async () => {
-            const tasksFromAPI = await fetchTasks();
-            setTasks(tasksFromAPI);
-        };
-
-        getTask();
-    }, []);
+    const tasks = useSelector(state => state.tasks).tasks
+        
+    /*
+    useEffect(() => {                
+        dispatch(fetchTasks())
+    },[]) */
 
     //Fetch Tasks from API
     const fetchTasks = async () => {
@@ -39,7 +35,7 @@ const App = () => {
         });
 
         e.stopPropagation();
-        setTasks(tasks.filter((task) => task.id !== id));
+        //setTasks(tasks.filter((task) => task.id !== id));
     };
 
     // Toggle Reminder
@@ -55,7 +51,7 @@ const App = () => {
                 "Content-type": "application/json; charset=UTF-8",
             },
         });
-
+        /*
         setTasks(
             tasks.map((task) => {
                 if (task.id === id) {
@@ -67,8 +63,8 @@ const App = () => {
                     };
                 }
                 return task;
-            })
-        );
+            })*/
+        //);
     };
 
     //Add Task
@@ -86,7 +82,7 @@ const App = () => {
         const data = await res.json();
         //console.log(data)
 
-        setTasks([...tasks, data]);
+        //setTasks([...tasks, data]);
         //console.log(task)
     };
 
@@ -95,7 +91,7 @@ const App = () => {
     };
 
     return (
-        <Provider store={store}>
+        
             <Router>
                 <div className="container">
                     <Header
@@ -108,13 +104,9 @@ const App = () => {
                         exact
                         render={(props) => (
                             <>
-                                {showAddForm && <AddTask onAdd={addTask} />}
+                                {showAddForm && <AddTask />}
                                 {tasks.length > 0 ? (
-                                    <Tasks
-                                        tasks={tasks}
-                                        onDelete={deleteTask}
-                                        onToggle={toggleReminder}
-                                    />
+                                    <Tasks />
                                 ) : (
                                     "No tasks to show"
                                 )}
@@ -125,7 +117,7 @@ const App = () => {
                     <Footer />
                 </div>
             </Router>
-        </Provider>
+        
     );
 };
 

@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { addTask } from '../redux/task/taskSlice'
+import { useDispatch } from 'react-redux'
+import { nanoid } from '@reduxjs/toolkit'
 
-
-
-const AddTask = ({onAdd}) => {
+const AddTask = () => {
     const [text,setText] = useState('')
     const [day,setDay] = useState('')
     const [reminder,setReminder] = useState(false)
+
+    const dispatch = useDispatch()
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -14,7 +17,7 @@ const AddTask = ({onAdd}) => {
             return
         }
 
-        onAdd({ text , day, reminder  })
+        dispatch(addTask({ id: nanoid(), text , day, reminder  }))
         setText('')
         setDay('')
         setReminder(false)

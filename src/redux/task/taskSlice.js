@@ -3,7 +3,26 @@ import { createSlice } from '@reduxjs/toolkit'
 export const slice = createSlice({
     name: 'tasks',
     initialState : {
-        tasks: []
+        tasks: [
+            {
+                id : 1,
+                text: 'Go shopping',
+                day: 'isTurdia',
+                reminder: true
+            },
+            {
+                id : 2,
+                text: 'Fix the house',
+                day: 'isTurdiinha',
+                reminder: false
+            },
+            {
+                id : 3,
+                text: 'Something else',
+                day: 'antionti',
+                reminder: true
+            }      
+        ]        
     },
     reducers:{
         addTask : (state, action) =>{

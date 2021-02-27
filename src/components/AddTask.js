@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { addTask } from '../redux/task/taskSlice'
+import { addNewTask } from '../redux/task/taskSlice'
 import { useDispatch } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 const AddTask = () => {
     const [text,setText] = useState('')
@@ -10,14 +10,16 @@ const AddTask = () => {
 
     const dispatch = useDispatch()
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
         if (!text){
             alert('Please add a task')
             return
         }
+        
+        const resultAction = await dispatch(addNewTask({ text , day, reminder  }))
+        unwrapResult(resultAction)
 
-        dispatch(addTask({ id: nanoid(), text , day, reminder  }))
         setText('')
         setDay('')
         setReminder(false)
